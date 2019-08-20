@@ -1,0 +1,114 @@
+﻿<Window x:Class="UpdateService.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UpdateService"
+        mc:Ignorable="d"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Icon="{Binding IconSource}"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        Title="软件升级" Height="300" Width="425">
+    <Window.Resources>
+        <local:num2TextBlockVisibleConverter x:Key="n2tbvc"/>
+        <local:num2ProgressBarVisibleConverter x:Key="n2pbvc"/>
+        <local:value2StringConverter x:Key="v2sc"/>
+        <local:Value2ColorConverter x:Key="v2cc"/>
+        <local:Value2DataConverter x:Key="v2dc"/>
+        <local:Num2StringConverter x:Key="n2sc"/>
+        <local:Num2CompleteTextBlockConverter x:Key="n2ctbc"/>
+        <local:Bool2StringConverter x:Key="b2sc"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="#87A3AF">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock Text="在线升级" FontSize="15" Margin="5,0"/>
+                </StackPanel>
+                <Button Grid.Column="2" Width="30" Height="30" BorderThickness="0" Command="{Binding CloseCommand}" >
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="border1" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" CornerRadius="100">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="/Images/exit-gray.png"/>
+                                </Border.Background>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter TargetName="border1" Property="Background">
+                                        <Setter.Value>
+                                            <ImageBrush ImageSource="/Images/exit-light.png"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Image x:Name="iconImg" Width="70" Source="{Binding IconSource}"/>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="1.2*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="1" Margin="5" Text="{Binding Log}" TextWrapping="Wrap"
+                           Visibility="{Binding Status,Converter={StaticResource n2tbvc}}"
+                           HorizontalAlignment="Stretch"/>
+                <ProgressBar Grid.Column="1" Margin="15" Value="{Binding Progress}" Visibility="{Binding Status,Converter={StaticResource n2pbvc}}">
+                    <ProgressBar.Template>
+                        <ControlTemplate TargetType="{x:Type ProgressBar}">
+                            <Viewbox Stretch="Uniform"  VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Border CornerRadius="200" Width="102" Height="102" Background="LightBlue">
+                                    <Grid>
+                                        <Path StrokeThickness="7" Height="100" Width="100"
+                                              Data="{Binding Path=Value,RelativeSource={RelativeSource AncestorType=ProgressBar},Converter={StaticResource v2dc}}" 
+                                              Stroke="{Binding Path=Value,RelativeSource={RelativeSource AncestorType=ProgressBar},Converter={StaticResource v2cc}}"/>
+                                        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock Foreground="{Binding Path=Value,RelativeSource={RelativeSource AncestorType=ProgressBar},Converter={StaticResource v2cc}}"
+                                                       Text="{Binding Path=Value,RelativeSource={RelativeSource AncestorType=ProgressBar},Converter={StaticResource v2sc}}"/>
+                                            <TextBlock Margin="0,3" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                       Foreground="{Binding Path=Value,RelativeSource={RelativeSource AncestorType=ProgressBar},Converter={StaticResource v2cc}}"                                    
+                                                       Text="{Binding Path=Value,RelativeSource={RelativeSource AncestorType=ProgressBar}, StringFormat={}{0}%}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </Viewbox>
+                        </ControlTemplate>
+                    </ProgressBar.Template>
+                </ProgressBar>
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                           Text="{Binding Result,Converter={StaticResource b2sc}}" 
+                           Visibility="{Binding Status,Converter={StaticResource n2ctbc}}"
+                           FontSize="25" Foreground="Black"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Border Height="30" Width="120" CornerRadius="5" BorderThickness="1" BorderBrush="AliceBlue">
+                <Button Content="{Binding Status,Converter={StaticResource n2sc}}" 
+                        BorderThickness="0" Command="{Binding UpdateCommand}" Background="#87A3AF"/>
+            </Border>
+            <TextBlock Text="{Binding CurrentVersion}" HorizontalAlignment="Center" Margin="2"
+                       VerticalAlignment="Bottom" FontSize="12" Foreground="LightGray"/>
+        </Grid>
+    </Grid>
+</Window>
