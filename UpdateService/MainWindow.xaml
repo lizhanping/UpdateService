@@ -22,13 +22,17 @@
         <local:Bool2StringConverter x:Key="b2sc"/>
     </Window.Resources>
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Images/bj.png"/>
+        </Grid.Background>
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="4*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="#87A3AF">
+        <Grid Grid.Row="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="55"/>
                 <RowDefinition Height="70"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -39,9 +43,9 @@
                     <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                    <TextBlock Text="在线升级" FontSize="15" Margin="5,0"/>
+                    <TextBlock Text="在线升级" FontSize="14" Margin="5,0"/>
                 </StackPanel>
-                <Button Grid.Column="2" Width="30" Height="30" BorderThickness="0" Command="{Binding CloseCommand}" >
+                <Button Grid.Column="2" Width="20" Height="20" BorderThickness="0" Command="{Binding CloseCommand}" >
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border x:Name="border1" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" CornerRadius="100">
@@ -62,23 +66,35 @@
                     </Button.Template>
                 </Button>
             </Grid>
-            <Grid Grid.Row="1">
-                <Image x:Name="iconImg" Width="70" Source="{Binding IconSource}"/>
-            </Grid>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
-                    <ColumnDefinition Width="1.2*"/>
+                    <ColumnDefinition Width="70"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="1" Margin="5" Text="{Binding Log}" TextWrapping="Wrap"
-                           Visibility="{Binding Status,Converter={StaticResource n2tbvc}}"
+                <Image x:Name="iconImg" Grid.Column="1" Width="70" Source="{Binding IconSource}"/>
+                <Border Grid.Column="2" HorizontalAlignment="Center" Margin="5" Height="16" 
+                        Width="60" VerticalAlignment="Top" CornerRadius="8" Background="#3080F0">
+                    <TextBlock Text="{Binding NewVersion}" FontFamily="MSYH" Foreground="White" FontSize="13" TextAlignment="Center" />
+                </Border>
+            </Grid>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" 
+                              Visibility="{Binding Status,Converter={StaticResource n2tbvc}}"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <TextBlock Margin="5" Text="{Binding Log}" TextWrapping="Wrap"                         
                            HorizontalAlignment="Stretch"/>
+                </ScrollViewer>
                 <ProgressBar Grid.Column="1" Margin="15" Value="{Binding Progress}" Visibility="{Binding Status,Converter={StaticResource n2pbvc}}">
                     <ProgressBar.Template>
                         <ControlTemplate TargetType="{x:Type ProgressBar}">
                             <Viewbox Stretch="Uniform"  VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Border CornerRadius="200" Width="102" Height="102" Background="LightBlue">
+                                <Border CornerRadius="200" Width="102" Height="102" Background="Transparent">
                                     <Grid>
                                         <Path StrokeThickness="7" Height="100" Width="100"
                                               Data="{Binding Path=Value,RelativeSource={RelativeSource AncestorType=ProgressBar},Converter={StaticResource v2dc}}" 
@@ -103,12 +119,13 @@
             </Grid>
         </Grid>
         <Grid Grid.Row="1">
-            <Border Height="30" Width="120" CornerRadius="5" BorderThickness="1" BorderBrush="AliceBlue">
+            <Border Height="30" Width="180" CornerRadius="20" BorderThickness="1" BorderBrush="AliceBlue" VerticalAlignment="Top" Margin="0,8,0,0">
                 <Button Content="{Binding Status,Converter={StaticResource n2sc}}" 
-                        BorderThickness="0" Command="{Binding UpdateCommand}" Background="#87A3AF"/>
+                        BorderThickness="0" Command="{Binding UpdateCommand}" 
+                        Background="#3080F0" Foreground="White"/>
             </Border>
-            <TextBlock Text="{Binding CurrentVersion}" HorizontalAlignment="Center" Margin="2"
-                       VerticalAlignment="Bottom" FontSize="12" Foreground="LightGray"/>
+            <TextBlock Text="{Binding CurrentVersion}" HorizontalAlignment="Center" Margin="0,0,0,5"
+                       VerticalAlignment="Bottom" FontSize="13" Foreground="Black"/>
         </Grid>
     </Grid>
 </Window>

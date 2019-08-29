@@ -2,6 +2,6 @@
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <StartAction>Project</StartAction>
-    <StartArguments>http://jkzm.jikaoyun.com/facesigntest/FaceSignInSystem/%2aupdate.xml%2aD:\\workspace\\FaceCheckin\\FaceSignInSystem.WPF\\bin\\Debug\\人脸识别签到系统.exe</StartArguments>
+    <StartArguments>http://jkzm.jikaoyun.com/facesignonline/FaceSignInSystem/%2aupdate.xml%2aD:\\workspace\\FaceSigninSystem\\FaceSignInSystem.WPF\\bin\\Debug\\人脸识别签到系统.exe</StartArguments>
   </PropertyGroup>
 </Project>

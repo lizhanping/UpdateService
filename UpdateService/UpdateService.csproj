@@ -102,8 +102,7 @@
     <Resource Include="Images\exit-light.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\close.png" />
-    <Resource Include="Images\closehover.png" />
+    <Resource Include="Images\bj.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

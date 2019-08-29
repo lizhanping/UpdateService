@@ -34,6 +34,7 @@ namespace UpdateService
             Status = 0;
             Progress = 0;
             Log = ReadLog();
+            NewVersion= ReadVersion(GlobalInfo.remoteUpdateFile);
             CurrentVersion = "当前版本："+ReadVersion(GlobalInfo.localUpdateFile);
         }
 
@@ -72,6 +73,22 @@ namespace UpdateService
             }
         }
 
+        /// <summary>
+        /// 最新版本
+        /// </summary>
+        private string newVersion;
+        public string NewVersion
+        {
+            get
+            {
+                return newVersion;
+            }
+            set
+            {
+                newVersion = value;
+                RaisePropertyChanged(nameof(NewVersion));
+            }
+        }
         /// <summary>
         /// 日志
         /// </summary>
@@ -378,9 +395,7 @@ namespace UpdateService
         /// <returns></returns>
         private string ReadLog()
         {
-            string log = "发现新版本：";
-            log += ReadVersion(GlobalInfo.remoteUpdateFile);
-            log += "\n";    
+            string log = string.Empty;   
             if(File.Exists(GlobalInfo.remoteUpdateFile))
             {
                 XmlDocument doc = new XmlDocument();
@@ -392,7 +407,7 @@ namespace UpdateService
                     log += item;
                     log += "\n";
                 }
-                return log;
+                return log.Trim();
             }
             else
             {
